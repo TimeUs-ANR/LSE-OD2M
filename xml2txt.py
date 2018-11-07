@@ -44,7 +44,7 @@ def make_text(input, output):
             input = input.split(".")
             output = str(input[0]) + ".txt"
         else:
-            output = output.split(".")
+            output = output[0].split(".")
             output = str(output[0]) + ".txt"
 
         # writing output
