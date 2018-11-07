@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0"
+  producer="ABBYY FineReader Engine 11" languages=""
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml">
+<page width="2833" height="4410" resolution="500" originalCoords="1">
+    <block blockType="Text" blockName="" l="546" t="1616" r="1966" b="2114">
+      <region>
+        <rect l="546" t="1616" r="1966" b="2114"/>
+      </region>
+      <text>
+        <par lineSpacing="1870">
+          <line baseline="1760" l="558" t="1630" r="1958" b="1766">
+            <formatting lang="FrenchStandard">LES OUVRIERS</formatting>
+          </line>
+        </par>
+        <par align="Center" rightIndent="100" lineSpacing="1070">
+          <line baseline="2100" l="810" t="2026" r="1718" b="2106">
+            <formatting lang="FrenchStandard">DES DEUX MONDES</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="1248" t="2644" r="1288" b="2716">
+      <region>
+        <rect l="1248" t="2644" r="1288" b="2716"/>
+      </region>
+      <text>
+        <par lineSpacing="730">
+          <line baseline="2706" l="1258" t="2655" r="1277" b="2706">
+            <formatting lang="FrenchStandard">I</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Separator" blockName="" l="0" t="0" r="400" b="14">
+      <region>
+        <rect l="0" t="0" r="400" b="4"/>
+        <rect l="0" t="4" r="366" b="10"/>
+        <rect l="0" t="10" r="134" b="14"/>
+      </region>
+      <separator type="Black" thickness="5"><start x="0" y="7"/><end x="400" y="7"/>
+      </separator>
+    </block>
+    <block blockType="Separator" blockName="" l="1092" t="2374" r="1454" b="2380">
+      <region>
+        <rect l="1092" t="2374" r="1454" b="2380"/>
+      </region>
+      <separator type="Black" thickness="3"><start x="1092" y="2377"/><end x="1454" y="2377"/>
+      </separator>
+    </block>
+  </page>
+  <page width="2833" height="4410" resolution="500" originalCoords="1">
+    <block blockType="Text" blockName="" l="1044" t="1982" r="2048" b="2048">
+      <region>
+        <rect l="1044" t="1982" r="2048" b="2048"/>
+      </region>
+      <text>
+        <par align="Right" lineSpacing="480">
+          <line baseline="2035" l="1054" t="2002" r="2037" b="2038">
+            <formatting lang="FrenchStandard">PARIS. — IMPRIMERIE DE J. CLÀTE</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="1292" t="2108" r="1830" b="2160">
+      <region>
+        <rect l="1292" t="2108" r="1830" b="2160"/>
+      </region>
+      <text>
+        <par lineSpacing="430">
+          <line baseline="2148" l="1303" t="2118" r="1820" b="2149">
+            <formatting lang="FrenchStandard">7 EUE 8AIKT-BEK0IT</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+  </page>
+  <page width="2833" height="4410" resolution="500" originalCoords="1">
+    <block blockType="Text" blockName="" l="300" t="160" r="432" b="236">
+      <region>
+        <rect l="300" t="160" r="432" b="236"/>
+      </region>
+      <text>
+        <par lineSpacing="690">
+          <line baseline="221" l="313" t="173" r="414" b="229">
+            <formatting lang="FrenchStandard">K*</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="696" t="104" r="2112" b="352">
+      <region>
+        <rect l="696" t="104" r="2112" b="352"/>
+      </region>
+      <text>
+        <par align="Justified" lineSpacing="605">
+          <line baseline="294" l="733" t="177" r="2099" b="309">
+            <formatting lang="FrenchStandard">•S6d&apos;è^A Soaaie,</formatting>
+          </line>
+        </par>
+        <par leftIndent="8200" lineSpacing="605">
+          <line baseline="344" l="1316" t="315" r="1331" b="334">
+            <formatting lang="FrenchStandard">*</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="1180" t="380" r="1364" b="456">
+      <region>
+        <rect l="1180" t="380" r="1364" b="456"/>
+      </region>
+      <text>
+        <par align="Center" leftIndent="300" lineSpacing="810">
+          <line baseline="449" l="1196" t="393" r="1345" b="450">
+            <formatting lang="FrenchStandard">LES</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="392" t="606" r="2140" b="866">
+      <region>
+        <rect l="392" t="606" r="2140" b="866"/>
+      </region>
+      <text>
+        <par leftIndent="1200" lineSpacing="3400">
+          <line baseline="848" l="404" t="612" r="2140" b="852">
+            <formatting lang="FrenchStandard">OUVRIERS</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="740" t="1046" r="1802" b="1156">
+      <region>
+        <rect l="740" t="1046" r="1802" b="1156"/>
+      </region>
+      <text>
+        <par align="Center" leftIndent="300" lineSpacing="1270">
+          <line baseline="1145" l="751" t="1057" r="1793" b="1147">
+            <formatting lang="FrenchStandard">DES DEUX MONDES</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="1054" t="1412" r="1468" b="1516">
+      <region>
+        <rect l="1054" t="1412" r="1468" b="1516"/>
+      </region>
+      <text>
+        <par align="Center" leftIndent="300" lineSpacing="1170">
+          <line baseline="1504" l="1065" t="1423" r="1459" b="1507">
+            <formatting lang="FrenchStandard">ÉTUDES</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="330" t="1680" r="2206" b="1874">
+      <region>
+        <rect l="330" t="1680" r="2206" b="1874"/>
+      </region>
+      <text>
+        <par align="Center" leftIndent="300" lineSpacing="490">
+          <line baseline="1724" l="553" t="1690" r="1950" b="1733">
+            <formatting lang="FrenchStandard">LES TRAVAUX, LA VIE DOMESTIQUE ET LA CONDITION
+              MORALE</formatting>
+          </line>
+        </par>
+        <par leftIndent="10600" lineSpacing="390">
+          <line baseline="1768" l="1052" t="1741" r="1120" b="1768">
+            <formatting lang="FrenchStandard">f *</formatting>
+          </line>
+        </par>
+        <par leftIndent="9200" lineSpacing="350">
+          <line baseline="1791" l="981" t="1767" r="1075" b="1791">
+            <formatting lang="FrenchStandard">. , A</formatting>
+          </line>
+        </par>
+        <par lineSpacing="710">
+          <line baseline="1863" l="341" t="1814" r="2196" b="1864">
+            <formatting lang="FrenchStandard">DES POPULATIONS OUVRIÈRES DES DIVERSES
+              CONTRÉES</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="584" t="1944" r="1940" b="2094">
+      <region>
+        <rect l="584" t="1944" r="1940" b="2094"/>
+      </region>
+      <text>
+        <par align="Center" leftIndent="300" lineSpacing="300">
+          <line baseline="1975" l="1190" t="1954" r="1329" b="1975">
+            <formatting lang="FrenchStandard">ET SUE</formatting>
+          </line>
+        </par>
+        <par align="Center" leftIndent="300" lineSpacing="500">
+          <line baseline="2077" l="595" t="2042" r="1929" b="2083">
+            <formatting lang="FrenchStandard">LES RAPPORTS QUI LES UNISSENT AUX AUTRES
+              CLASSES</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="472" t="2188" r="2038" b="2512">
+      <region>
+        <rect l="472" t="2188" r="2038" b="2512"/>
+      </region>
+      <text>
+        <par leftIndent="8200" lineSpacing="500">
+          <line baseline="2234" l="896" t="2199" r="1626" b="2243">
+            <formatting lang="FrenchStandard">publiées sous forme de monographies</formatting>
+          </line>
+        </par>
+        <par align="Center" leftIndent="300" lineSpacing="940">
+          <line baseline="2375" l="483" t="2310" r="2028" b="2377">
+            <formatting lang="FrenchStandard">PAR LA SOCIÉTÉ INTERNATIONALE</formatting>
+          </line>
+        </par>
+        <par align="Center" leftIndent="300" lineSpacing="650">
+          <line baseline="2495" l="700" t="2450" r="1798" b="2502">
+            <formatting lang="FrenchStandard">DES ÉTUDES PRATIQUES D’ÉCONOMIE SOCIALE.</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="942" t="2808" r="1548" b="2874">
+      <region>
+        <rect l="942" t="2808" r="1548" b="2874"/>
+      </region>
+      <text>
+        <par leftIndent="9200" lineSpacing="630">
+          <line baseline="2862" l="951" t="2818" r="1539" b="2864">
+            <formatting lang="FrenchStandard">TOME PREMIER</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="1076" t="3470" r="1414" b="3566">
+      <region>
+        <rect l="1076" t="3470" r="1414" b="3566"/>
+      </region>
+      <text>
+        <par align="Right" lineSpacing="1080">
+          <line baseline="3555" l="1086" t="3480" r="1404" b="3555">
+            <formatting lang="FrenchStandard">PARIS</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Picture" blockName="" l="1772" t="2986" r="2432" b="3532">
+      <region>
+        <rect l="1772" t="2986" r="2432" b="3532"/>
+      </region>
+    </block>
+    <block blockType="Text" blockName="" l="418" t="3610" r="2074" b="3720">
+      <region>
+        <rect l="418" t="3610" r="2074" b="3720"/>
+      </region>
+      <text>
+        <par align="Center" leftIndent="300" lineSpacing="820">
+          <line baseline="3705" l="429" t="3648" r="2063" b="3709">
+            <formatting lang="FrenchStandard">AU SIÈGE DE LA SOCIÉTÉ INTERNATIONALE</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="994" t="3752" r="1486" b="3816">
+      <region>
+        <rect l="994" t="3752" r="1486" b="3816"/>
+      </region>
+      <text>
+        <par align="Center" leftIndent="300" lineSpacing="460">
+          <line baseline="3794" l="1005" t="3762" r="1475" b="3802">
+            <formatting lang="FrenchStandard">QUAI MAL AQU ATS, 3</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="1172" t="3916" r="1326" b="3980">
+      <region>
+        <rect l="1172" t="3916" r="1326" b="3980"/>
+      </region>
+      <text>
+        <par lineSpacing="610">
+          <line baseline="3968" l="1182" t="3926" r="1317" b="3969">
+            <formatting lang="FrenchStandard">1857</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Separator" blockName="" l="1144" t="1278" r="1402" b="1284">
+      <region>
+        <rect l="1216" t="1278" r="1340" b="1280"/>
+        <rect l="1144" t="1280" r="1402" b="1282"/>
+        <rect l="1144" t="1282" r="1216" b="1284"/>
+      </region>
+      <separator type="Black" thickness="2"><start x="1144" y="1281"/><end x="1402" y="1281"/>
+      </separator>
+    </block>
+    <block blockType="Separator" blockName="" l="1142" t="2736" r="1352" b="2742">
+      <region>
+        <rect l="1142" t="2736" r="1352" b="2742"/>
+      </region>
+      <separator type="Black" thickness="3"><start x="1142" y="2739"/><end x="1352" y="2739"/>
+      </separator>
+    </block>
+    <block blockType="Separator" blockName="" l="1144" t="2950" r="1342" b="2956">
+      <region>
+        <rect l="1144" t="2950" r="1342" b="2956"/>
+      </region>
+      <separator type="Black" thickness="3"><start x="1144" y="2953"/><end x="1342" y="2953"/>
+      </separator>
+    </block>
+    <block blockType="Separator" blockName="" l="2222" t="3182" r="2238" b="3392">
+      <region>
+        <rect l="2224" t="3182" r="2238" b="3318"/>
+        <rect l="2222" t="3318" r="2234" b="3392"/>
+      </region>
+      <separator type="Black" thickness="6"><start x="2230" y="3182"/><end x="2230" y="3392"/>
+      </separator>
+    </block>
+  </page>
+  <page width="2721" height="4363" resolution="501" originalCoords="1">
+    <block blockType="Text" blockName="" l="868" t="356" r="1624" b="426">
+      <region>
+        <rect l="868" t="356" r="1624" b="426"/>
+      </region>
+      <text>
+        <par lineSpacing="690">
+          <line baseline="415" l="878" t="367" r="1613" b="416">
+            <formatting lang="FrenchStandard">OBSERVATIONS PRÉLIMINAIRES.</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="2172" t="362" r="2278" b="426">
+      <region>
+        <rect l="2172" t="362" r="2278" b="426"/>
+      </region>
+      <text>
+        <par lineSpacing="630">
+          <line baseline="416" l="2183" t="372" r="2268" b="416">
+            <formatting lang="FrenchStandard">165</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+    <block blockType="Text" blockName="" l="148" t="462" r="2316" b="3902">
+      <region>
+        <rect l="148" t="462" r="2316" b="3902"/>
+      </region>
+      <text>
+        <par align="Justified" leftIndent="1100" lineSpacing="1164">
+          <line baseline="527" l="225" t="472" r="2264" b="547">
+            <formatting lang="FrenchStandard">leurs parents, sont traités par eux avec douceur. Une
+              sœur du mari,</formatting>
+          </line>
+          <line baseline="609" l="227" t="553" r="2269" b="621">
+            <formatting lang="FrenchStandard">restée célibataire, demeure dans la maison , vivant
+              avec sa belle-</formatting>
+          </line>
+          <line baseline="690" l="228" t="635" r="2265" b="708">
+            <formatting lang="FrenchStandard">sœur en bonne intelligence et l’aidant dans les
+              travaux du ménage ;</formatting>
+          </line>
+          <line baseline="773" l="228" t="717" r="2270" b="790">
+            <formatting lang="FrenchStandard">enfin,la mère du chef de famille, âgée de 95 ans,
+              entourée par tous</formatting>
+          </line>
+          <line baseline="855" l="228" t="799" r="2271" b="874">
+            <formatting lang="FrenchStandard">de soins affectueux, peut passer dans le calme et le
+              repos les jours</formatting>
+          </line>
+          <line baseline="939" l="228" t="884" r="693" b="940">
+            <formatting lang="FrenchStandard">de sa vieillesse.</formatting>
+          </line>
+        </par>
+        <par align="Justified" leftIndent="1100" startIndent="1100" lineSpacing="1164">
+          <line baseline="1019" l="302" t="962" r="2272" b="1038">
+            <formatting lang="FrenchStandard">L’instruction est encore peu répandue dans les
+              villages du La-</formatting>
+          </line>
+          <line baseline="1101" l="224" t="1045" r="2272" b="1120">
+            <formatting lang="FrenchStandard">bourd [les Ouv. europ. XXIX (b)]. A l’exception des
+              jeunes gens, peu</formatting>
+          </line>
+          <line baseline="1183" l="225" t="1127" r="2273" b="1202">
+            <formatting lang="FrenchStandard">de personnes savent lire et écrire le français dans
+              ces villages, mais</formatting>
+          </line>
+          <line baseline="1266" l="223" t="1210" r="2272" b="1284">
+            <formatting lang="FrenchStandard">les parents envoient volontiers leurs enfants à
+              l’école où on l’en¬</formatting>
+          </line>
+          <line baseline="1347" l="225" t="1291" r="2273" b="1365">
+            <formatting lang="FrenchStandard">seigne. Jusqu’ici les Basques ont conservé l’usage de
+              leur langue</formatting>
+          </line>
+          <line baseline="1428" l="226" t="1372" r="2274" b="1447">
+            <formatting lang="FrenchStandard">originale (l’Eskuara), et, protégés par la difficulté
+              de cette lan¬</formatting>
+          </line>
+          <line baseline="1509" l="225" t="1454" r="2276" b="1528">
+            <formatting lang="FrenchStandard">gue, ils ont vécu à l’abri de toute influence
+              étrangère. C’est à cet</formatting>
+          </line>
+          <line baseline="1590" l="222" t="1535" r="2272" b="1609">
+            <formatting lang="FrenchStandard">isolement moral qu’ils ont dû de conserver les
+              traditions, et les</formatting>
+          </line>
+          <line baseline="1673" l="224" t="1618" r="2266" b="1692">
+            <formatting lang="FrenchStandard">habitudes qui les distinguent du reste des populations
+              françaises (c).</formatting>
+          </line>
+          <line baseline="1755" l="224" t="1700" r="2275" b="1773">
+            <formatting lang="FrenchStandard">Ils exercent l’hospitalité avec désintéressement, à la
+              manière des</formatting>
+          </line>
+          <line baseline="1837" l="223" t="1781" r="2274" b="1856">
+            <formatting lang="FrenchStandard">peuples pasteurs. L’aumône chez eux est considérée
+              comme un</formatting>
+          </line>
+          <line baseline="1919" l="225" t="1864" r="2275" b="1937">
+            <formatting lang="FrenchStandard">devoir, et ils la font avec une générosité qui exclut
+              tout calcul (les</formatting>
+          </line>
+          <line baseline="2002" l="232" t="1947" r="2275" b="2022">
+            <formatting lang="FrenchStandard">Ouv. europ. XXX § 3). Ils ont à un haut degré le
+              respect des su¬</formatting>
+          </line>
+          <line baseline="2083" l="226" t="2028" r="2275" b="2101">
+            <formatting lang="FrenchStandard">périorités sociales, mais les signes extérieurs de ce
+              respect n’ex¬</formatting>
+          </line>
+          <line baseline="2165" l="223" t="2110" r="2276" b="2183">
+            <formatting lang="FrenchStandard">cluent pas la dignité chez les inférieurs dans leurs
+              rapports avec</formatting>
+          </line>
+          <line baseline="2247" l="219" t="2192" r="2276" b="2266">
+            <formatting lang="FrenchStandard">les personnes d’une autre classe. Entre eux, lorsqu’il
+              s’agit d’af¬</formatting>
+          </line>
+          <line baseline="2330" l="219" t="2273" r="2275" b="2340">
+            <formatting lang="FrenchStandard">faires d’intérêt, ils se montrent rusés et souvent
+              violents dans les</formatting>
+          </line>
+          <line baseline="2412" l="221" t="2357" r="2276" b="2430">
+            <formatting lang="FrenchStandard">discussions, mais ils évitent les procès en général et
+              acceptent avec</formatting>
+          </line>
+          <line baseline="2494" l="221" t="2438" r="2273" b="2512">
+            <formatting lang="FrenchStandard">confiance les décisions du juge de paix et les
+              conseils des personnes</formatting>
+          </line>
+          <line baseline="2575" l="219" t="2520" r="2273" b="2592">
+            <formatting lang="FrenchStandard">influentes. Respectueux envers l’autorité, ils ont
+              pourtant une cer¬</formatting>
+          </line>
+          <line baseline="2656" l="219" t="2601" r="2273" b="2674">
+            <formatting lang="FrenchStandard">taine tendance à se faire justice à eux-mêmes et à
+              échapper à quel¬</formatting>
+          </line>
+          <line baseline="2737" l="221" t="2683" r="2270" b="2756">
+            <formatting lang="FrenchStandard">ques-unes des prescriptions de la loi ; ils ont
+              surtout pour le service</formatting>
+          </line>
+          <line baseline="2819" l="220" t="2764" r="2271" b="2836">
+            <formatting lang="FrenchStandard">militaire une vive répugnance, et souvent ils émigrent
+              dans la seule</formatting>
+          </line>
+          <line baseline="2900" l="218" t="2846" r="960" b="2919">
+            <formatting lang="FrenchStandard">pensée de s’v soustraire.</formatting>
+          </line>
+        </par>
+        <par align="Justified" leftIndent="1100" startIndent="1100" lineSpacing="1164">
+          <line baseline="2984" l="294" t="2928" r="2269" b="3002">
+            <formatting lang="FrenchStandard">Naturellement portés à la gaieté, les Basques aiment
+              avec pas¬</formatting>
+          </line>
+          <line baseline="3064" l="220" t="3008" r="2270" b="3082">
+            <formatting lang="FrenchStandard">sion les plaisirs bruyants, les jeux en commun, les
+              fêtes, la danse</formatting>
+          </line>
+          <line baseline="3146" l="230" t="3090" r="2266" b="3165">
+            <formatting lang="FrenchStandard">(g 11). Mais, en général, ils apportent une certaine
+              modération</formatting>
+          </line>
+          <line baseline="3228" l="223" t="3171" r="2269" b="3246">
+            <formatting lang="FrenchStandard">dans la jouissance des plaisirs. Quoiqu’ils
+              fréquentent volontiers le</formatting>
+          </line>
+          <line baseline="3310" l="224" t="3253" r="2267" b="3322">
+            <formatting lang="FrenchStandard">cabaret, ils s’enivrent rarement : ils recherchent, il
+              est vrai, la</formatting>
+          </line>
+          <line baseline="3391" l="222" t="3332" r="2266" b="3400">
+            <formatting lang="FrenchStandard">bonne chère, mais dans l’intérieur ils vivent avec
+              sobriété sans</formatting>
+          </line>
+          <line baseline="3472" l="222" t="3413" r="2258" b="3492">
+            <formatting lang="FrenchStandard">toutefois s’imposer des privations dans un but
+              d’épargne (les Ouv.</formatting>
+          </line>
+          <line baseline="3553" l="224" t="3496" r="2266" b="3573">
+            <formatting lang="FrenchStandard">europ. XXII g 3). La tendance a fonder l’épargne sur
+              les priva¬</formatting>
+          </line>
+          <line baseline="3634" l="223" t="3573" r="2264" b="3646">
+            <formatting lang="FrenchStandard">tions imposées à la famille est un trait des mœurs
+              nouvelles ; elle</formatting>
+          </line>
+          <line baseline="3716" l="225" t="3655" r="2263" b="3736">
+            <formatting lang="FrenchStandard">doit avoir pour effet de rompre l’ancien régime
+              d’égalité des pay¬</formatting>
+          </line>
+          <line baseline="3799" l="224" t="3740" r="2261" b="3820">
+            <formatting lang="FrenchStandard">sans au profit des quelques familles qui s’adonnent à
+              cette vertu</formatting>
+          </line>
+        </par>
+      </text>
+      <text>
+        <par leftIndent="1200" lineSpacing="1020">
+          <line baseline="3891" l="233" t="3820" r="404" b="3892">
+            <formatting lang="FrenchStandard">(§9).</formatting>
+          </line>
+        </par>
+      </text>
+    </block>
+  </page>
+</document>
