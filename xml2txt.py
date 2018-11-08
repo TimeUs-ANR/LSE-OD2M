@@ -57,7 +57,7 @@ def make_text(input, output):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Transform XML files to raw text.")
-    parser.add_argument("-i", "--input", action="store", nargs=1, help="path to file to transform.")
+    parser.add_argument("-i", "--input", action="store", required=True, nargs=1, help="path to file to transform.")
     parser.add_argument("-o", "--output", default="", action="store", nargs=1,
                         help="desired path to resulting filename. Default : input filename + .txt.")
     args=parser.parse_args()
