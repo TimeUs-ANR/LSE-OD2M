@@ -18,6 +18,7 @@ def make_text(input, output):
         soup = BeautifulSoup(text_input, "lxml")
         pages = soup.find_all("page")
         text_output = []
+        headers = [["chaîne", "longueur chaîne", "val line/@b"]]
         for page in pages:
             # adding marker
             text_output.append("\n===PAGE===\n\n")
@@ -29,27 +30,41 @@ def make_text(input, output):
                 elif bloc["blocktype"] == "Text":
                     paragraphs = bloc.find_all("par")
                     for paragraph in paragraphs:
-                        paragraph = paragraph.find_all("formatting")
+                        paragraph = paragraph.find_all("line")
+                        # isolating headers
+                        clean_paragraph = []
+                        for line in paragraph:
+                            if int(line["b"]) <= 450:
+                                if len(line.formatting.string) <= 60:
+                                    headers.append([line.formatting.string, len(line.formatting.string), line["b"]])
+                                else:
+                                    clean_paragraph.append(line.formatting.string)
                         # removing extra spaces and resolving hyphenation
-                        p = "\n".join(["%s" % line.string for line in paragraph])
+                        p = "\n".join(["%s" % line for line in clean_paragraph])
                         p = re.sub(r"^ +", "", p, flags=re.M)
                         p = re.sub(r"¬\n|-\n", "", p, flags=re.M)
                         p = re.sub(r"\n", " ", p, flags=re.M)
                         text_output.append(p)
                         text_output.append("\n\n")
         text_output_str = "".join(text_output)
-
+        header_out = []
+        for h in headers:
+            header_out.append(";".join(["\"%s\"" % e for e in h]))
+        header_out = "\n".join(header_out)
         # Making name for output file
         if not output:
             input = input.split(".")
             output = str(input[0]) + ".txt"
+            header_output = str(input[0]) + "_headers.csv"
         else:
             output = output[0].split(".")
             output = str(output[0]) + ".txt"
-
+            header_output = str(output[0]) + "_headers.csv"
         # writing output
         with open(output, "w") as f:
             f.write(text_output_str)
+        with open(header_output, "w") as f:
+            f.write(header_out)
 
     except Exception as e:
         print("Error:", e)
