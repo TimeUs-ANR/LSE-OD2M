@@ -46,6 +46,8 @@ def make_text(input, output):
                         p = re.sub(r"^ +", "", p, flags=re.M)
                         p = re.sub(r"¬\n|-\n", "", p, flags=re.M)
                         p = re.sub(r"\n", " ", p, flags=re.M)
+                        if p[-1:] == "-" or p[-1:] == "¬" or p[-1:] == "—":
+                            p = re.sub(r"[-—¬]$", "[--hyphen--]", p)
                         text_output.append(p)
                         text_output.append("\n\n")
         text_output_str = "".join(text_output)
