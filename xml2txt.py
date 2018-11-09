@@ -3,7 +3,7 @@
 from bs4 import BeautifulSoup
 import re
 
-B_COORD = 450 # value of line's @b
+B_COORD = 490 # value of line's @b
 LINE_LEN = 65 # maximum length of the line
 
 def make_text(input, output):
@@ -24,7 +24,7 @@ def make_text(input, output):
         headers = [["chaîne", "longueur chaîne", "val line/@b"]]
         for page in pages:
             # adding marker
-            text_output.append("\n===PAGE===\n\n")
+            text_output.append("\n[==PAGE==]\n")
             blocs = page.find_all("block")
             for bloc in blocs:
                 # adding markers for tables
@@ -46,11 +46,13 @@ def make_text(input, output):
                         p = re.sub(r"^ +", "", p, flags=re.M)
                         p = re.sub(r"¬\n|-\n", "", p, flags=re.M)
                         p = re.sub(r"\n", " ", p, flags=re.M)
-                        if p[-1:] == "-" or p[-1:] == "¬" or p[-1:] == "—":
-                            p = re.sub(r"[-—¬]$", "[--hyphen--]", p)
+                        if p[-1:] == "-" or p[-1:] == "¬":
+                            p = re.sub(r"[-¬]$", "[--hyphen--]", p)
                         text_output.append(p)
-                        text_output.append("\n\n")
+                        text_output.append("\n")
         text_output_str = "".join(text_output)
+        text_output_str = re.sub(r"\[--hyphen--]\n+\[==PAGE==]\n+", "[--hyphen--][==PAGE==]", text_output_str, flags=re.M)
+        text_output_str = re.sub(r"\[--hyphen--]\n+", "[--hyphen--]", text_output_str, flags=re.M)
         header_out = []
         for h in headers:
             header_out.append(";".join(["\"%s\"" % e for e in h]))
