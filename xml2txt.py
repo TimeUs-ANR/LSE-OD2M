@@ -3,6 +3,9 @@
 from bs4 import BeautifulSoup
 import re
 
+B_COORD = 450 # value of line's @b
+LINE_LEN = 65 # maximum length of the line
+
 def make_text(input, output):
     """ Perform transformation to raw text, adding markers
 
@@ -34,11 +37,10 @@ def make_text(input, output):
                         # isolating headers
                         clean_paragraph = []
                         for line in paragraph:
-                            if int(line["b"]) <= 450:
-                                if len(line.formatting.string) <= 60:
-                                    headers.append([line.formatting.string, len(line.formatting.string), line["b"]])
-                                else:
-                                    clean_paragraph.append(line.formatting.string)
+                            if int(line["b"]) <= B_COORD and len(line.formatting.string) <= LINE_LEN:
+                                headers.append([line.formatting.string, len(line.formatting.string), line["b"]])
+                            else:
+                                clean_paragraph.append(line.formatting.string)
                         # removing extra spaces and resolving hyphenation
                         p = "\n".join(["%s" % line for line in clean_paragraph])
                         p = re.sub(r"^ +", "", p, flags=re.M)
