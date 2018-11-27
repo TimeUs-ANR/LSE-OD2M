@@ -2,10 +2,10 @@
 
 from bs4 import BeautifulSoup
 import re
-import copy
+from copy import copy
 
 
-def make_text(input, output):
+def make_text(input, output=False):
     """ Perform transformation to raw text, adding markers
 
     :param input: name of file to transform
@@ -18,11 +18,11 @@ def make_text(input, output):
     try:
         with open(input, "r") as f:
             text_input = f.read()
-        soup_in = BeautifulSoup(text_input, "lxml")
+        soup = BeautifulSoup(text_input, "lxml")
     except Exception as e:
         print("Error: ", e)
 
-    all_pages = soup_in.find_all("page")
+    all_pages = soup.find_all("page")
 
     for page in all_pages:
         all_blocks = page.find_all("block")
@@ -63,35 +63,67 @@ def make_text(input, output):
                 block["type"] = "Text"
                 del block["blockname"]
                 block.name = "div"
-
-
-    # identifier les headers (étalonné sur s1t1enq1.xml)
-    #for page in all_pages:
-    #    all_lines = page.find_all("line")
-    #    for line in all_lines:
-    #        if int(line["b"]) < (int(page["height"]) * 0.12):
-    #            if int(line.parent["linespacing"]) <= 660:
-    #                print(line.parent["linespacing"], "\t", line)
-    #            elif int(line.parent["linespacing"]) > 660:
-    #                print(line.parent["linespacing"], "\t", line)
-
+    # make hard copy of the soup
+    # when removing one item, leave it in hard copy, when leaving one item, removing it in hard copy
+    guard = """<html><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document></html>"""
+    guard_soup = BeautifulSoup(guard, "lxml")
+    all_pages = soup.find_all("page")
+    count = 0
+    for page in all_pages:
+        count += 1
+        page["id"] = count
+        page_f = copy(page)
+        page_f.clear()
+        all_divs = page.find_all("div")
+        for div in all_divs:
+            div_f = copy(div)
+            div_f.clear()
+            all_ps = div.find_all("p")
+            for p in all_ps:
+                p_f = copy(p)
+                p_f.clear()
+                all_lines = p.find_all("line")
+                for line in all_lines:
+                    # targetting headers
+                    if int(line["b"]) < (int(page["height"]) * 0.12):
+                        if (int(line.parent["linespacing"]) <= 700) and (int(line.parent["linespacing"]) >= 390):
+                            line_f = line.extract()
+                            line_f["type"] = "header"
+                            p_f.append(line_f)
+                    # targetting signatures
+                    elif int(line["b"]) > (int(page["height"]) * 0.925):
+                        if len(line.string) < 2:
+                            line_f = line.extract()
+                            line_f["type"] = "signature"
+                            p_f.append(line_f)
+                if len(p_f.contents) > 0:
+                    div_f.append(p_f)
+            if len(div_f.contents) > 0:
+                page_f.append(div_f)
+        guard_soup.document.append(page_f)
 
     # ...
+    # - recompose paragraphs
+    # - identify title
+    # - add management of location within the article from titles and headers
+
+    final_str = str(soup.prettify())
+    guard_str = str(guard_soup.prettify())
 
     # Making name for output file
     if not output:
         input = input.split(".")
-        output = str(input[0]) + ".txt"
+        output = str(input[0]) + "_out.xml"
         output_guard = str(input[0]) + "_guard.xml"
     else:
         output = output[0].split(".")
-        output = str(output[0]) + ".txt"
+        output = str(output[0]) + ".xml"
         output_guard = str(output[0]) + "_guard.xml"
     # writing output
-    #with open(output, "w") as f:
-    #    f.write(text_output_str)
-    #with open(header_output, "w") as f:
-    #    f.write(header_out)
+    with open(output, "w") as f:
+        f.write(final_str)
+    with open(output_guard, "w") as f:
+        f.write(guard_str)
 
     return
 
@@ -100,8 +132,8 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Transform XML files to raw text.")
     parser.add_argument("-i", "--input", action="store", required=True, nargs=1, help="path to file to transform.")
-    parser.add_argument("-o", "--output", default="", action="store", nargs=1,
-                        help="desired path to resulting filename. Default : input filename + '.txt' or + '_guard.xml.'")
+    parser.add_argument("-o", "--output", action="store", nargs=1,
+                        help="desired path to resulting filename. Default : input filename + '_out.xml | _guard.xml.'")
     args=parser.parse_args()
 
     make_text(input=args.input[0], output=args.output)
