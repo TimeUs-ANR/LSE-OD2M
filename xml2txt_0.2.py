@@ -18,8 +18,63 @@ def make_text(input, output):
     try:
         with open(input, "r") as f:
             text_input = f.read()
-    soup_input = BeautifulSoup(text_input, "lxml")
-    soup_output = copy.deepcopy(soup_input)
+        soup_in = BeautifulSoup(text_input, "lxml")
+    except Exception as e:
+        print("Error: ", e)
+
+    all_pages = soup_in.find_all("page")
+
+    for page in all_pages:
+        all_blocks = page.find_all("block")
+        for block in all_blocks:
+            # modify figure type blocks, including tables
+            if block["blocktype"] != "Text":
+                block.name = "figure"
+                block["type"] = block["blocktype"]
+                attrs_list = block.attrs
+                for attr in list(attrs_list):
+                    if attr != "type":
+                        del block[attr]
+                block.clear()
+            # rearrange text type blocks
+            else:
+                if block.region:
+                    block.region.decompose()
+                # moving par elements right under block element
+                all_pars = block.find_all("par")
+                for par in all_pars:
+                    ext_par = par.extract()
+                    ext_par.name = "p"
+                    block.append(ext_par)
+                # finding a way around to delete tag names text
+                all_tags = block.contents
+                for tag in all_tags:
+                    if tag.name == "text":
+                        tag.decompose()
+                # moving line elements right under par element
+                all_lines = block.find_all("line")
+                for line in all_lines:
+                    line.append(line.formatting.string)
+                    f_attrs_list = line.formatting.attrs
+                    if len(f_attrs_list) > 0:
+                       for f_attr in f_attrs_list:
+                           line[f_attr] = f_attrs_list[f_attr]
+                    line.formatting.decompose()
+                block["type"] = "Text"
+                del block["blockname"]
+                block.name = "div"
+
+
+    # identifier les headers (étalonné sur s1t1enq1.xml)
+    #for page in all_pages:
+    #    all_lines = page.find_all("line")
+    #    for line in all_lines:
+    #        if int(line["b"]) < (int(page["height"]) * 0.12):
+    #            if int(line.parent["linespacing"]) <= 660:
+    #                print(line.parent["linespacing"], "\t", line)
+    #            elif int(line.parent["linespacing"]) > 660:
+    #                print(line.parent["linespacing"], "\t", line)
+
 
     # ...
 
