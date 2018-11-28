@@ -63,35 +63,40 @@ def make_text(input, output=False):
                 block["type"] = "Text"
                 del block["blockname"]
                 block.name = "div"
-    # make hard copy of the soup
-    # when removing one item, leave it in hard copy, when leaving one item, removing it in hard copy
+    # preparing alternative soup with only removed items
     guard = """<html><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document></html>"""
     guard_soup = BeautifulSoup(guard, "lxml")
     all_pages = soup.find_all("page")
     count = 0
     for page in all_pages:
         count += 1
-        page["id"] = count
+        page["id"] = "page%s" % count
         page_f = copy(page)
         page_f.clear()
         all_divs = page.find_all("div")
+        div_count = 0
         for div in all_divs:
+            div_count += 1
+            div["id"] = "page%s_d%s" % (count, div_count)
             div_f = copy(div)
             div_f.clear()
             all_ps = div.find_all("p")
+            p_count = 0
             for p in all_ps:
+                p_count += 1
+                p["id"] = "page%s_d%s_p%s" % (count, div_count, p_count)
                 p_f = copy(p)
                 p_f.clear()
                 all_lines = p.find_all("line")
                 for line in all_lines:
                     # targetting headers
                     if int(line["b"]) < (int(page["height"]) * 0.12):
-                        if (int(line.parent["linespacing"]) <= 700) and (int(line.parent["linespacing"]) >= 390):
+                        if (int(line.parent["linespacing"]) <= 750) and (int(line.parent["linespacing"]) >= 390):
                             line_f = line.extract()
                             line_f["type"] = "header"
                             p_f.append(line_f)
                     # targetting signatures
-                    elif int(line["b"]) > (int(page["height"]) * 0.925):
+                    elif int(line["b"]) > (int(page["height"]) * 0.91):
                         if len(line.string) < 2:
                             line_f = line.extract()
                             line_f["type"] = "signature"
