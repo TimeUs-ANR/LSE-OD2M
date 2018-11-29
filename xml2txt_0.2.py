@@ -19,7 +19,7 @@ def make_text(input, output=False):
     try:
         with open(input, "r") as f:
             text_input = f.read()
-        soup = BeautifulSoup(text_input, "lxml")
+        soup = BeautifulSoup(text_input, "lxml-xml")
     except Exception as e:
         rightfile = False
         print(colored("Error:", "red", attrs=["bold"]), e)
@@ -31,9 +31,9 @@ def make_text(input, output=False):
             all_blocks = page.find_all("block")
             for block in all_blocks:
                 # modify figure type blocks, including tables
-                if block["blocktype"] != "Text":
+                if block["blockType"] != "Text":
                     block.name = "figure"
-                    block["type"] = block["blocktype"]
+                    block["type"] = block["blockType"]
                     attrs_list = block.attrs
                     for attr in list(attrs_list):
                         if attr != "type":
@@ -64,11 +64,11 @@ def make_text(input, output=False):
                                line[f_attr] = f_attrs_list[f_attr]
                         line.formatting.decompose()
                     block["type"] = "Text"
-                    del block["blockname"]
+                    del block["blockName"]
                     block.name = "div"
         # preparing alternative soup with only removed items
-        guard = """<html><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document></html>"""
-        guard_soup = BeautifulSoup(guard, "lxml")
+        guard = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document>"""
+        guard_soup = BeautifulSoup(guard, "lxml-xml")
         all_pages = soup.find_all("page")
         count = 0
         for page in all_pages:
@@ -95,8 +95,8 @@ def make_text(input, output=False):
                     for line in all_lines:
                         # targetting headers
                         if int(line["b"]) < (int(page["height"]) * 0.12):
-                            if "linespacing" in line.parent.attrs:
-                                if (int(line.parent["linespacing"]) <= 750) and (int(line.parent["linespacing"]) >= 390):
+                            if "lineSpacing" in line.parent.attrs:
+                                if (int(line.parent["lineSpacing"]) <= 750) and (int(line.parent["lineSpacing"]) >= 390):
                                     line_f = line.extract()
                                     line_f["type"] = "header"
                                     p_f.append(line_f)
