@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
+from termcolor import colored
 import re
 from copy import copy
 
@@ -14,121 +15,147 @@ def make_text(input, output=False):
     :type output: list if True
     :return:
     """
-
+    rightfile = True
     try:
         with open(input, "r") as f:
             text_input = f.read()
         soup = BeautifulSoup(text_input, "lxml")
     except Exception as e:
-        print("Error: ", e)
+        rightfile = False
+        print(colored("Error:", "red", attrs=["bold"]), e)
 
-    all_pages = soup.find_all("page")
+    if rightfile:
+        all_pages = soup.find_all("page")
 
-    for page in all_pages:
-        all_blocks = page.find_all("block")
-        for block in all_blocks:
-            # modify figure type blocks, including tables
-            if block["blocktype"] != "Text":
-                block.name = "figure"
-                block["type"] = block["blocktype"]
-                attrs_list = block.attrs
-                for attr in list(attrs_list):
-                    if attr != "type":
-                        del block[attr]
-                block.clear()
-            # rearrange text type blocks
-            else:
-                if block.region:
-                    block.region.decompose()
-                # moving par elements right under block element
-                all_pars = block.find_all("par")
-                for par in all_pars:
-                    ext_par = par.extract()
-                    ext_par.name = "p"
-                    block.append(ext_par)
-                # finding a way around to delete tag names text
-                all_tags = block.contents
-                for tag in all_tags:
-                    if tag.name == "text":
-                        tag.decompose()
-                # moving line elements right under par element
-                all_lines = block.find_all("line")
-                for line in all_lines:
-                    line.append(line.formatting.string)
-                    f_attrs_list = line.formatting.attrs
-                    if len(f_attrs_list) > 0:
-                       for f_attr in f_attrs_list:
-                           line[f_attr] = f_attrs_list[f_attr]
-                    line.formatting.decompose()
-                block["type"] = "Text"
-                del block["blockname"]
-                block.name = "div"
-    # preparing alternative soup with only removed items
-    guard = """<html><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document></html>"""
-    guard_soup = BeautifulSoup(guard, "lxml")
-    all_pages = soup.find_all("page")
-    count = 0
-    for page in all_pages:
-        count += 1
-        page["id"] = "page%s" % count
-        page_f = copy(page)
-        page_f.clear()
-        all_divs = page.find_all("div")
-        div_count = 0
-        for div in all_divs:
-            div_count += 1
-            div["id"] = "page%s_d%s" % (count, div_count)
-            div_f = copy(div)
-            div_f.clear()
-            all_ps = div.find_all("p")
-            p_count = 0
-            for p in all_ps:
-                p_count += 1
-                p["id"] = "page%s_d%s_p%s" % (count, div_count, p_count)
-                p_f = copy(p)
-                p_f.clear()
-                all_lines = p.find_all("line")
-                for line in all_lines:
-                    # targetting headers
-                    if int(line["b"]) < (int(page["height"]) * 0.12):
-                        if (int(line.parent["linespacing"]) <= 750) and (int(line.parent["linespacing"]) >= 390):
-                            line_f = line.extract()
-                            line_f["type"] = "header"
-                            p_f.append(line_f)
-                    # targetting signatures
-                    elif int(line["b"]) > (int(page["height"]) * 0.91):
-                        if len(line.string) < 2:
-                            line_f = line.extract()
-                            line_f["type"] = "signature"
-                            p_f.append(line_f)
-                if len(p_f.contents) > 0:
-                    div_f.append(p_f)
-            if len(div_f.contents) > 0:
-                page_f.append(div_f)
-        guard_soup.document.append(page_f)
+        for page in all_pages:
+            all_blocks = page.find_all("block")
+            for block in all_blocks:
+                # modify figure type blocks, including tables
+                if block["blocktype"] != "Text":
+                    block.name = "figure"
+                    block["type"] = block["blocktype"]
+                    attrs_list = block.attrs
+                    for attr in list(attrs_list):
+                        if attr != "type":
+                            del block[attr]
+                    block.clear()
+                # rearrange text type blocks
+                else:
+                    if block.region:
+                        block.region.decompose()
+                    # moving par elements right under block element
+                    all_pars = block.find_all("par")
+                    for par in all_pars:
+                        ext_par = par.extract()
+                        ext_par.name = "p"
+                        block.append(ext_par)
+                    # finding a way around to delete tag names text
+                    all_tags = block.contents
+                    for tag in all_tags:
+                        if tag.name == "text":
+                            tag.decompose()
+                    # moving line elements right under par element
+                    all_lines = block.find_all("line")
+                    for line in all_lines:
+                        line.append(line.formatting.string)
+                        f_attrs_list = line.formatting.attrs
+                        if len(f_attrs_list) > 0:
+                           for f_attr in f_attrs_list:
+                               line[f_attr] = f_attrs_list[f_attr]
+                        line.formatting.decompose()
+                    block["type"] = "Text"
+                    del block["blockname"]
+                    block.name = "div"
+        # preparing alternative soup with only removed items
+        guard = """<html><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document></html>"""
+        guard_soup = BeautifulSoup(guard, "lxml")
+        all_pages = soup.find_all("page")
+        count = 0
+        for page in all_pages:
+            count += 1
+            page["id"] = "page%s" % count
+            page_f = copy(page)
+            page_f.clear()
+            all_divs = page.find_all("div")
+            div_count = 0
+            for div in all_divs:
+                div_count += 1
+                div["id"] = "page%s_d%s" % (count, div_count)
+                div_f = copy(div)
+                div_f.clear()
+                all_ps = div.find_all("p")
+                p_count = 0
+                for p in all_ps:
+                    p_count += 1
+                    p["id"] = "page%s_d%s_p%s" % (count, div_count, p_count)
+                    p_f = copy(p)
+                    p_f.clear()
+                    all_lines = p.find_all("line")
+                    l_count = 0
+                    for line in all_lines:
+                        # targetting headers
+                        if int(line["b"]) < (int(page["height"]) * 0.12):
+                            if "linespacing" in line.parent.attrs:
+                                if (int(line.parent["linespacing"]) <= 750) and (int(line.parent["linespacing"]) >= 390):
+                                    line_f = line.extract()
+                                    line_f["type"] = "header"
+                                    p_f.append(line_f)
+                                else:
+                                    l_count += 1
+                                    line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                                    test_str = line.string
+                                    if len(test_str.replace(" ", "")) < 55:
+                                        print(colored("WARNING:", "yellow", attrs=["reverse"]), "line might be a header but was left in output: '%s'.\n\t" % (line["id"]), colored(line.string, "white", attrs=["dark"]))
+                            else:
+                                l_count += 1
+                                line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                                print(colored("WARNING:", "yellow", attrs=["reverse"]), "line might be a header but was left in output: '%s'.\n\t" % (line["id"]), colored(line.string, "white", attrs=["dark"]))
+                        # targetting signatures
+                        elif int(line["b"]) > (int(page["height"]) * 0.91):
+                            if len(line.string) <= 2:
+                                line_f = line.extract()
+                                line_f["type"] = "signature"
+                                p_f.append(line_f)
+                            elif len(line.string) >= 3 and len(line.string) < 10:
+                                l_count += 1
+                                line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                                print(colored("WARNING:", "yellow", attrs=["reverse"]),
+                                      "line might be a signature but was left output: '%s'.\n\t" % (line["id"]),
+                                      colored(line.string, "white", attrs=["dark"]))
+                            else:
+                                l_count += 1
+                                line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                        else:
+                            l_count += 1
+                            line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                    if len(p_f.contents) > 0:
+                        div_f.append(p_f)
+                if len(div_f.contents) > 0:
+                    page_f.append(div_f)
+            guard_soup.document.append(page_f)
 
-    # ...
-    # - recompose paragraphs
-    # - identify title
-    # - add management of location within the article from titles and headers
+        # ...
+        # - recompose paragraphs
+        # - identify title
+        # - add management of location within the article from titles and headers
 
-    final_str = str(soup.prettify())
-    guard_str = str(guard_soup.prettify())
+        final_str = str(soup.prettify())
+        guard_str = str(guard_soup.prettify())
 
-    # Making name for output file
-    if not output:
-        input = input.split(".")
-        output = str(input[0]) + "_out.xml"
-        output_guard = str(input[0]) + "_guard.xml"
-    else:
-        output = output[0].split(".")
-        output = str(output[0]) + ".xml"
-        output_guard = str(output[0]) + "_guard.xml"
-    # writing output
-    with open(output, "w") as f:
-        f.write(final_str)
-    with open(output_guard, "w") as f:
-        f.write(guard_str)
+        # Making name for output file
+        if not output:
+            input = input.split(".")
+            output = str(input[0]) + "_out.xml"
+            output_guard = str(input[0]) + "_guard.xml"
+        else:
+            output = output[0].split(".")
+            output = str(output[0]) + ".xml"
+            output_guard = str(output[0]) + "_guard.xml"
+        # writing output
+        with open(output, "w") as f:
+            f.write(final_str)
+        with open(output_guard, "w") as f:
+            f.write(guard_str)
 
     return
 
