@@ -15,18 +15,17 @@ def make_text(input, output=False):
     :type output: list if True
     :return:
     """
-    rightfile = True
+    file_exists = True
     try:
         with open(input, "r") as f:
             text_input = f.read()
         soup = BeautifulSoup(text_input, "lxml-xml")
     except Exception as e:
-        rightfile = False
+        file_exists = False
         print(colored("Error:", "red", attrs=["bold"]), e)
 
-    if rightfile:
+    if file_exists:
         all_pages = soup.find_all("page")
-
         for page in all_pages:
             all_blocks = page.find_all("block")
             for block in all_blocks:
@@ -70,28 +69,30 @@ def make_text(input, output=False):
         guard = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document>"""
         guard_soup = BeautifulSoup(guard, "lxml-xml")
         all_pages = soup.find_all("page")
-        count = 0
+        warning_headers = []
+        warning_signatures = []
+        count_page = 0
         for page in all_pages:
-            count += 1
-            page["id"] = "page%s" % count
+            count_page += 1
+            page["id"] = "page%s" % count_page
             page_f = copy(page)
             page_f.clear()
             all_divs = page.find_all("div")
-            div_count = 0
+            count_div = 0
             for div in all_divs:
-                div_count += 1
-                div["id"] = "page%s_d%s" % (count, div_count)
+                count_div += 1
+                div["id"] = "page%s_div%s" % (count_page, count_div)
                 div_f = copy(div)
                 div_f.clear()
                 all_ps = div.find_all("p")
-                p_count = 0
+                count_p = 0
                 for p in all_ps:
-                    p_count += 1
-                    p["id"] = "page%s_d%s_p%s" % (count, div_count, p_count)
+                    count_p += 1
+                    p["id"] = "page%s_div%s_p%s" % (count_page, count_div, count_p)
                     p_f = copy(p)
                     p_f.clear()
                     all_lines = p.find_all("line")
-                    l_count = 0
+                    count_line = 0
                     for line in all_lines:
                         # targetting headers
                         if int(line["b"]) < (int(page["height"]) * 0.12):
@@ -101,14 +102,14 @@ def make_text(input, output=False):
                                     line_f["type"] = "header"
                                     p_f.append(line_f)
                                 else:
-                                    l_count += 1
-                                    line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                                    count_line += 1
+                                    line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
                                     test_str = line.string
                                     if len(test_str.replace(" ", "")) < 55:
                                         print(colored("WARNING:", "yellow", attrs=["reverse"]), "line might be a header but was left in output: '%s'.\n\t" % (line["id"]), colored(line.string, "white", attrs=["dark"]))
                             else:
-                                l_count += 1
-                                line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                                count_line += 1
+                                line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
                                 print(colored("WARNING:", "yellow", attrs=["reverse"]), "line might be a header but was left in output: '%s'.\n\t" % (line["id"]), colored(line.string, "white", attrs=["dark"]))
                         # targetting signatures
                         elif int(line["b"]) > (int(page["height"]) * 0.91):
@@ -117,17 +118,17 @@ def make_text(input, output=False):
                                 line_f["type"] = "signature"
                                 p_f.append(line_f)
                             elif len(line.string) >= 3 and len(line.string) < 10:
-                                l_count += 1
-                                line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                                count_line += 1
+                                line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
                                 print(colored("WARNING:", "yellow", attrs=["reverse"]),
                                       "line might be a signature but was left output: '%s'.\n\t" % (line["id"]),
                                       colored(line.string, "white", attrs=["dark"]))
                             else:
-                                l_count += 1
-                                line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                                count_line += 1
+                                line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
                         else:
-                            l_count += 1
-                            line["id"] = "page%s_d%s_p%s_l%s" % (count, div_count, p_count, l_count)
+                            count_line += 1
+                            line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
                     if len(p_f.contents) > 0:
                         div_f.append(p_f)
                 if len(div_f.contents) > 0:
