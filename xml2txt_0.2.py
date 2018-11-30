@@ -6,6 +6,73 @@ import re
 from copy import copy
 
 
+def make_the_soup(filename):
+    """Read an xml document and return its content as a bs4 object
+
+    :param filename: filename
+    :return: content of the document or False
+    :rtype: bs4.BeautifulSoup or boolean
+    """
+    try:
+        with open(filename, "r") as f:
+            text = f.read()
+        soup = BeautifulSoup(text, "lxml")
+    except Exception as e:
+        #print(colored("Error", "red", attrs=["bold"]), e)
+        print(e)
+        #soup = False
+    print(len(soup))
+    return soup
+
+
+def report_warnings(warning_headers, warning_signatures):
+    """Print warnings in terminal
+
+    :param warning_headers: list of potentially missed headers
+    :param warning_signatures: list of potentially missed signatures
+    """
+    for warn_id, warn_string in warning_headers:
+        print(colored("WARNING:", "yellow", attrs=["reverse"]),
+              "Might be a HEADER but was left in output : '%s':\n\t" % (warn_id),
+              colored(warn_string, "white", attrs=["dark"]))
+    for warn_id, warn_string in warning_signatures:
+        print(colored("WARNING:", "yellow", attrs=["reverse"]),
+              "Might be a SIGNATURE but was left in output : '%s':\n\t" % (warn_id),
+              colored(warn_string, "white", attrs=["dark"]))
+
+
+def make_out_filenames(name_input, name_output=False):
+    """Makes output filenames
+
+    :param name_input: filename
+    :type name_input: string
+    :param name_output: filename
+    :type name_output: string or Boolean
+    :return: filenames
+    :rtype: tuple
+    """
+    if not name_output:
+        nin = name_input.split(".")
+        nout = str(nin[0]) + "_out.xml"
+        out_guard = str(nin[0]) + "_guard.xml"
+    else:
+        nout = name_output[0].split(".")
+        nout = str(nout[0]) + ".xml"
+        out_guard = str(nout[0]) + "_guard.xml"
+    return nout, out_guard
+
+
+def write_output(filename, content):
+    """ Write
+    :param filename: filename
+    :type filename: string
+    :param content: file content
+    :type content: string
+    """
+    with open(filename, "w") as f:
+        f.write(content)
+
+
 def make_text(input, output=False):
     """ Perform transformation to raw text, adding markers
 
@@ -15,16 +82,8 @@ def make_text(input, output=False):
     :type output: list if True
     :return:
     """
-    file_exists = True
-    try:
-        with open(input, "r") as f:
-            text_input = f.read()
-        soup = BeautifulSoup(text_input, "lxml-xml")
-    except Exception as e:
-        file_exists = False
-        print(colored("Error:", "red", attrs=["bold"]), e)
-
-    if file_exists:
+    soup = make_the_soup(input)
+    if soup:
         all_pages = soup.find_all("page")
         for page in all_pages:
             all_blocks = page.find_all("block")
@@ -136,39 +195,19 @@ def make_text(input, output=False):
                     page_f.append(div_f)
             guard_soup.document.append(page_f)
 
-        # report warnings
-        for warn_id, warn_string in warning_headers:
-            print(colored("WARNING:", "yellow", attrs=["reverse"]),
-                  "Might be a HEADER but was left in output : '%s':\n\t" % (warn_id),
-                  colored(warn_string, "white", attrs=["dark"]))
-        for warn_id, warn_string in warning_signatures:
-            print(colored("WARNING:", "yellow", attrs=["reverse"]),
-                  "Might be a SIGNATURE but was left in output : '%s':\n\t" % (warn_id),
-                  colored(warn_string, "white", attrs=["dark"]))
-
         # ...
         # - recompose paragraphs
         # - identify title
         # - add management of location within the article from titles and headers
 
+        report_warnings(warning_headers, warning_signatures)
+
         final_str = str(soup.prettify())
         guard_str = str(guard_soup.prettify())
 
-        # Making name for output file
-        if not output:
-            input = input.split(".")
-            output = str(input[0]) + "_out.xml"
-            output_guard = str(input[0]) + "_guard.xml"
-        else:
-            output = output[0].split(".")
-            output = str(output[0]) + ".xml"
-            output_guard = str(output[0]) + "_guard.xml"
-        # writing output
-        with open(output, "w") as f:
-            f.write(final_str)
-        with open(output_guard, "w") as f:
-            f.write(guard_str)
-
+        out_file, output_guard = make_out_filenames(input, output)
+        write_output(out_file, final_str)
+        write_output(output_guard, guard_str)
     return
 
 
