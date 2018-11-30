@@ -94,6 +94,7 @@ def make_text(input, output=False):
                     all_lines = p.find_all("line")
                     count_line = 0
                     for line in all_lines:
+                        id_line = "page%s_d%s_p%s_l" % (count_page, count_div, count_p)
                         # targetting headers
                         if int(line["b"]) < (int(page["height"]) * 0.12):
                             if "lineSpacing" in line.parent.attrs:
@@ -103,14 +104,16 @@ def make_text(input, output=False):
                                     p_f.append(line_f)
                                 else:
                                     count_line += 1
-                                    line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
+                                    line["id"] = id_line + str(count_line)
                                     test_str = line.string
                                     if len(test_str.replace(" ", "")) < 55:
-                                        print(colored("WARNING:", "yellow", attrs=["reverse"]), "line might be a header but was left in output: '%s'.\n\t" % (line["id"]), colored(line.string, "white", attrs=["dark"]))
+                                        warning_headers.append((line["id"], line.string))
                             else:
                                 count_line += 1
-                                line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
-                                print(colored("WARNING:", "yellow", attrs=["reverse"]), "line might be a header but was left in output: '%s'.\n\t" % (line["id"]), colored(line.string, "white", attrs=["dark"]))
+                                line["id"] = id_line + str(count_line)
+                                test_str = line.string
+                                if len(test_str.replace(" ", "")) < 55:
+                                    warning_headers.append((line["id"], line.string))
                         # targetting signatures
                         elif int(line["b"]) > (int(page["height"]) * 0.91):
                             if len(line.string) <= 2:
@@ -119,21 +122,29 @@ def make_text(input, output=False):
                                 p_f.append(line_f)
                             elif len(line.string) >= 3 and len(line.string) < 10:
                                 count_line += 1
-                                line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
-                                print(colored("WARNING:", "yellow", attrs=["reverse"]),
-                                      "line might be a signature but was left output: '%s'.\n\t" % (line["id"]),
-                                      colored(line.string, "white", attrs=["dark"]))
+                                line["id"] = id_line + str(count_line)
+                                warning_signatures.append((line["id"], line.string))
                             else:
                                 count_line += 1
-                                line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
+                                line["id"] = id_line + str(count_line)
                         else:
                             count_line += 1
-                            line["id"] = "page%s_d%s_p%s_l%s" % (count_page, count_div, count_p, count_line)
+                            line["id"] = id_line + str(count_line)
                     if len(p_f.contents) > 0:
                         div_f.append(p_f)
                 if len(div_f.contents) > 0:
                     page_f.append(div_f)
             guard_soup.document.append(page_f)
+
+        # report warnings
+        for warn_id, warn_string in warning_headers:
+            print(colored("WARNING:", "yellow", attrs=["reverse"]),
+                  "Might be a HEADER but was left in output : '%s':\n\t" % (warn_id),
+                  colored(warn_string, "white", attrs=["dark"]))
+        for warn_id, warn_string in warning_signatures:
+            print(colored("WARNING:", "yellow", attrs=["reverse"]),
+                  "Might be a SIGNATURE but was left in output : '%s':\n\t" % (warn_id),
+                  colored(warn_string, "white", attrs=["dark"]))
 
         # ...
         # - recompose paragraphs
