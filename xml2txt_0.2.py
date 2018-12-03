@@ -111,12 +111,12 @@ def rearrange(soup):
                 # moving line elements right under par element
                 all_lines = block.find_all("line")
                 for line in all_lines:
-                    line.append(line.formatting.string)
-                    f_attrs_list = line.formatting.attrs
-                    if len(f_attrs_list) > 0:
-                        for f_attr in f_attrs_list:
-                            line[f_attr] = f_attrs_list[f_attr]
-                    line.formatting.decompose()
+                    all_formatting = line.find_all("formatting")
+                    one_string = []
+                    for formatting in all_formatting:
+                        one_string.append(formatting.string)
+                        formatting.decompose()
+                    line.append(" ".join(one_string))
                 block["type"] = "Text"
                 del block["blockname"]
                 block.name = "div"
