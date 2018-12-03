@@ -202,6 +202,52 @@ def exclude_headers_signatures(soup):
     return guard_soup, soup, warning_headers, warning_signatures
 
 
+def make_breakers(soup):
+    """Transform <page></page> into <pb/> and <line></line> in <lb/>
+
+    :param soup: parsed XML tree
+    :type soup: bs4.BeautifulSoup
+    :return: parsed XML tree
+    :rtype: bs4.BeautifulSoup
+    """
+    broken_soup = BeautifulSoup("<document></document>", "xml")
+    all_pages = soup.find_all("page")
+
+    for page in all_pages:
+        new_pb = BeautifulSoup("<temp><pb/></temp>", "xml")
+        att_page = page.attrs
+        for k in att_page:
+            new_pb.pb[k] = att_page[k]
+        broken_soup.document.append(new_pb.pb)
+
+        for cont_page in page.contents:
+            if cont_page.name:
+                if cont_page.name == "div":
+                    new_div = BeautifulSoup("<temp><div></div></temp>", "xml")
+                    att_div = cont_page.attrs
+                    for k in att_div:
+                        new_div.div[k] = att_div[k]
+                    for cont_div in cont_page.contents:
+                        if cont_div.name:
+                            new_p = BeautifulSoup("<temp><p></p></temp>", "xml")
+                            att_p = cont_div.attrs
+                            for k in att_p:
+                                new_p.p[k] = att_p[k]
+                            all_lines = cont_div.find_all("line")
+                            for line in all_lines:
+                                new_lb = BeautifulSoup("<temp><lb/></temp>", "xml")
+                                att_line = line.attrs
+                                for k in att_line:
+                                    new_lb.lb[k] = att_line[k]
+                                new_p.p.append(new_lb.lb)
+                                new_p.p.append(line.string)
+                            new_div.div.append(new_p.p)
+                    broken_soup.document.append(new_div.div)
+                else:
+                    broken_soup.document.append(cont_page)
+    return broken_soup
+
+
 def make_text(input, output=False):
     """ Perform transformation to raw text, adding markers
 
@@ -215,17 +261,15 @@ def make_text(input, output=False):
     if transformed_text:
         transformed_text = rearrange(transformed_text)
         transformed_text_guard, transformed_text, warning_headers, warning_signatures = exclude_headers_signatures(transformed_text)
+        transformed_text = make_breakers(transformed_text)
 
-        # ...
         # - recompose paragraphs
         # - identify title
         # - add management of location within the article from titles and headers
 
         report_warnings(warning_headers, warning_signatures)
 
-        final_text = BeautifulSoup("", "lxml-xml")
-        final_text.append(transformed_text.document)
-        final_text_str = str(final_text.prettify())
+        final_text_str = str(transformed_text.prettify())
         guard_str = str(transformed_text_guard.prettify())
 
         out_file, output_guard = make_out_filenames(input, output)
