@@ -237,6 +237,6 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--input", action="store", required=True, nargs=1, help="path to file to transform.")
     parser.add_argument("-o", "--output", action="store", nargs=1,
                         help="desired path to resulting filename. Default : input filename + '_out.xml | _guard.xml.'")
-    args=parser.parse_args()
+    args = parser.parse_args()
 
     make_text(input=args.input[0], output=args.output)
