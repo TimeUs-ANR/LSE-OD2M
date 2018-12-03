@@ -71,10 +71,12 @@ def write_output(filename, content):
 
 
 def rearrange(soup):
-    """
+    """Simplify XML ABBY structure and sort text blocks from over types of blocks
 
-    :param soup:
-    :return:
+    :param soup: parsed XML tree
+    :type soup: bs4.BeautifulSoup
+    :return: parsed XML tree
+    :rtype: bs4.BeautifulSoup
     """
     all_pages = soup.find_all("page")
     for page in all_pages:
@@ -119,11 +121,13 @@ def rearrange(soup):
     return soup
 
 
-def exclude_headers(soup):
-    """
+def exclude_headers_signatures(soup):
+    """Sort headers and signatures from the body of text
     
-    :param soup: 
-    :return: 
+    :param soup: parsed XML tree
+    :rtype soup: bs4.BeautifulSoup
+    :return: parsed XML trees and lists of warnings
+    :rtype: tuple
     """
     guard = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document>"""
     guard_soup = BeautifulSoup(guard, "lxml-xml")
@@ -210,7 +214,7 @@ def make_text(input, output=False):
     transformed_text = make_the_soup(input)
     if transformed_text:
         transformed_text = rearrange(transformed_text)
-        transformed_text_guard, transformed_text, warning_headers, warning_signatures = exclude_headers(transformed_text)
+        transformed_text_guard, transformed_text, warning_headers, warning_signatures = exclude_headers_signatures(transformed_text)
 
         # ...
         # - recompose paragraphs
