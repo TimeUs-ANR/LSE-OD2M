@@ -18,10 +18,7 @@ def make_the_soup(filename):
             text = f.read()
         soup = BeautifulSoup(text, "lxml")
     except Exception as e:
-        #print(colored("Error", "red", attrs=["bold"]), e)
-        print(e)
-        #soup = False
-    print(len(soup))
+        print(colored("Error", "red", attrs=["bold"]), e)
     return soup
 
 
@@ -89,9 +86,9 @@ def make_text(input, output=False):
             all_blocks = page.find_all("block")
             for block in all_blocks:
                 # modify figure type blocks, including tables
-                if block["blockType"] != "Text":
+                if block["blocktype"] != "Text":
                     block.name = "figure"
-                    block["type"] = block["blockType"]
+                    block["type"] = block["blocktype"]
                     attrs_list = block.attrs
                     for attr in list(attrs_list):
                         if attr != "type":
@@ -122,7 +119,7 @@ def make_text(input, output=False):
                                line[f_attr] = f_attrs_list[f_attr]
                         line.formatting.decompose()
                     block["type"] = "Text"
-                    del block["blockName"]
+                    del block["blockname"]
                     block.name = "div"
         # preparing alternative soup with only removed items
         guard = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document>"""
@@ -156,8 +153,8 @@ def make_text(input, output=False):
                         id_line = "page%s_d%s_p%s_l" % (count_page, count_div, count_p)
                         # targetting headers
                         if int(line["b"]) < (int(page["height"]) * 0.12):
-                            if "lineSpacing" in line.parent.attrs:
-                                if (int(line.parent["lineSpacing"]) <= 750) and (int(line.parent["lineSpacing"]) >= 390):
+                            if "linespacing" in line.parent.attrs:
+                                if (int(line.parent["linespacing"]) <= 750) and (int(line.parent["linespacing"]) >= 390):
                                     line_f = line.extract()
                                     line_f["type"] = "header"
                                     p_f.append(line_f)
@@ -201,8 +198,9 @@ def make_text(input, output=False):
         # - add management of location within the article from titles and headers
 
         report_warnings(warning_headers, warning_signatures)
-
-        final_str = str(soup.prettify())
+        final_out = BeautifulSoup("", "lxml-xml")
+        final_out.append(soup.document)
+        final_str = str(final_out.prettify())
         guard_str = str(guard_soup.prettify())
 
         out_file, output_guard = make_out_filenames(input, output)
