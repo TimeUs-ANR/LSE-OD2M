@@ -9,4 +9,4 @@ for doc in document:
     if ext == "xml":
         clear_doc.append("input/" + name + "." + ext)
 for d in clear_doc:
-    subprocess.call(["python3", "xml2txt.py", "-i", d])
+    subprocess.call(["python3", "xml2txt_0.2.py", "-i", d])
