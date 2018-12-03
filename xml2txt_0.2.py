@@ -50,13 +50,15 @@ def make_out_filenames(name_input, name_output=False):
     """
     if not name_output:
         nin = name_input.split(".")
-        nout = str(nin[0]) + "_out.xml"
+        out_xml = str(nin[0]) + "_out.xml"
         out_guard = str(nin[0]) + "_guard.xml"
+        out_txt = str(nin[0]) + ".txt"
     else:
         nout = name_output[0].split(".")
-        nout = str(nout[0]) + ".xml"
+        out_xml = str(nout[0]) + ".xml"
         out_guard = str(nout[0]) + "_guard.xml"
-    return nout, out_guard
+        out_txt = str(nout[0]) + ".txt"
+    return out_xml, out_guard, out_txt
 
 
 def write_output(filename, content):
@@ -258,24 +260,26 @@ def make_text(input, output=False):
     :return:
     """
     transformed_text = make_the_soup(input)
+
     if transformed_text:
         transformed_text = rearrange(transformed_text)
         transformed_text_guard, transformed_text, warning_headers, warning_signatures = exclude_headers_signatures(transformed_text)
         transformed_text = make_breakers(transformed_text)
 
+        report_warnings(warning_headers, warning_signatures)
+
+        final_xml_str = str(transformed_text.prettify())
+        guard_str = str(transformed_text_guard.prettify())
+
+        out_xml_file, output_guard, out_txt_file = make_out_filenames(input, output)
+
+        write_output(out_xml_file, final_xml_str)
+        write_output(output_guard, guard_str)
+
+        # make plain text output
         # - recompose paragraphs
         # - identify title
         # - add management of location within the article from titles and headers
-
-        report_warnings(warning_headers, warning_signatures)
-
-        final_text_str = str(transformed_text.prettify())
-        guard_str = str(transformed_text_guard.prettify())
-
-        out_file, output_guard = make_out_filenames(input, output)
-
-        write_output(out_file, final_text_str)
-        write_output(output_guard, guard_str)
     return
 
 
