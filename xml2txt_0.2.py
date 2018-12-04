@@ -153,7 +153,7 @@ def exclude_headers_signatures(soup):
     :rtype: tuple
     """
     guard = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?><document xmlns="http://www.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml" version="1.0" producer="timeUs"></document>"""
-    guard_soup = BeautifulSoup(guard, "lxml-xml")
+    guard_soup = BeautifulSoup(guard, "xml")
 
     all_pages = soup.find_all("page")
     warning_headers = []
@@ -187,9 +187,10 @@ def exclude_headers_signatures(soup):
                 count_line = 0
                 for line in all_lines:
                     id_line = "page%s_d%s_p%s_l" % (count_page, count_div, count_p)
-                    # testing the line : is it a header and needs to be taken out?
+                    # testing the line : is it a header and needs to be taken out of the tree?
                     if int(line["b"]) < (int(page["height"]) * 0.12):
                         if "linespacing" in line.parent.attrs:
+                            # for headers, lineSpacing value is normal comprehended between 390 and 750.
                             if (int(line.parent["linespacing"]) <= 750) and (int(line.parent["linespacing"]) >= 390):
                                 line_f = line.extract()
                                 line_f["type"] = "header"
@@ -218,7 +219,7 @@ def exclude_headers_signatures(soup):
                             test_str = line.string
                             if len(test_str.replace(" ", "")) < 55:
                                 warning_headers.append((line["id"], line.string))
-                    # testing the line : is it a signature and needs to be taken out?
+                    # testing the line : is it a signature and needs to be taken out of the tree?
                     elif int(line["b"]) > (int(page["height"]) * 0.91):
                         if len(line.string.strip()) <= 2:
                             # considered a signature if in the last 9% of page height and extra short
