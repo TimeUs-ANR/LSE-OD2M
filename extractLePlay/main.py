@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from io.input import make_the_soup
-from io.output import make_out_filenames, write_output, make_string
+from io import io
 from transform import simplify, sort, breakdown
-from utils.utils import report_warnings
+from utils import utils
 
 
 if __name__ == "__main__":
@@ -18,7 +17,7 @@ if __name__ == "__main__":
     filename_out = args.output
 
     # first we read the XML ABBY file
-    transformed_text = input.make_the_soup(filename_in)
+    transformed_text = io.make_the_soup(filename_in)
     if transformed_text:
         # then we simplify the XML tree be sorting text and non-text blocks
     	transformed_text = simplify.rearrange(transformed_text)
@@ -28,13 +27,13 @@ if __name__ == "__main__":
     	transformed_text = breakdown.make_breakers(transformed_text)
 
         # raising warnings and creating output files
-    	report_warnings(warning_headers, warning_signatures)
-    	final_xml_str = make_string(transformed_text)
-    	final_guard_str = make_string(transformed_text_guard)
+    	utils.report_warnings(warning_headers, warning_signatures)
+    	final_xml_str = io.make_string(transformed_text)
+    	final_guard_str = io.make_string(transformed_text_guard)
 
-    	out_xml_file, out_guard, out_txt_file = make_out_filenames(filename_in, filename_out)
-    	write_output(out_xml_file, final_xml_str)
-    	write_output(out_guard, final_guard_str)
+    	out_xml_file, out_guard, out_txt_file = io.make_out_filenames(filename_in, filename_out)
+    	io.write_output(out_xml_file, final_xml_str)
+    	io.write_output(out_guard, final_guard_str)
 
         # make plain text output
         # - recompose paragraphs

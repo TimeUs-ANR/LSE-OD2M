@@ -2,7 +2,7 @@
 from bs4 import BeautifulSoup
 from copy import copy
 
-from utils.utils import is_number
+from utils import utils
 
 def exclude_headers_signatures(soup):
     """Sort headers and signatures from the body of text and give each element an id
@@ -57,7 +57,7 @@ def exclude_headers_signatures(soup):
                                 p_f.append(line_f)
                                 # giving page @pagenb when the pagenumber is fully OCR-ed
                                 if line_f.string:
-                                    if is_number(line_f.string):
+                                    if utils.is_number(line_f.string):
                                         page["pagenb"] = line_f.string
                                         # !!
                                         # need a warning for incoherent page numbers
