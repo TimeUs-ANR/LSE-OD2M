@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from io import io
-from transform import simplify, sort, breakdown
-from utils import utils
-
+from src.leplay_io import io
+from src.leplay_transform import simplify, sort, breakdown
+from src.leplay_utils import utils
 
 if __name__ == "__main__":
     import argparse
@@ -20,20 +19,20 @@ if __name__ == "__main__":
     transformed_text = io.make_the_soup(filename_in)
     if transformed_text:
         # then we simplify the XML tree be sorting text and non-text blocks
-    	transformed_text = simplify.rearrange(transformed_text)
+        transformed_text = simplify.rearrange(transformed_text)
         # then we sort out headers and signatures, which may raise warnings
-    	transformed_text_guard, transformed_text, warning_headers, warning_signatures = sort.exclude_headers_signatures(transformed_text)
+        transformed_text_guard, transformed_text, warning_headers, warning_signatures = sort.exclude_headers_signatures(transformed_text)
         # then we transform the tree to separate the tree structure from the physical structure of the text
-    	transformed_text = breakdown.make_breakers(transformed_text)
+        transformed_text = breakdown.make_breakers(transformed_text)
 
         # raising warnings and creating output files
-    	utils.report_warnings(warning_headers, warning_signatures)
-    	final_xml_str = io.make_string(transformed_text)
-    	final_guard_str = io.make_string(transformed_text_guard)
+        utils.report_warnings(warning_headers, warning_signatures)
+        final_xml_str = io.make_string(transformed_text)
+        final_guard_str = io.make_string(transformed_text_guard)
 
-    	out_xml_file, out_guard, out_txt_file = io.make_out_filenames(filename_in, filename_out)
-    	io.write_output(out_xml_file, final_xml_str)
-    	io.write_output(out_guard, final_guard_str)
+        out_xml_file, out_guard, out_txt_file = io.make_out_filenames(filename_in, filename_out)
+        io.write_output(out_xml_file, final_xml_str)
+        io.write_output(out_guard, final_guard_str)
 
         # make plain text output
         # - recompose paragraphs

@@ -3,3 +3,7 @@ input/
 .idea/
 testset_LePlay
 test
+src/__pycache__/
+src/leplay_io/__pycache__/
+src/leplay_transform/__pycache__/
+src/leplay_utils/__pycache__/
