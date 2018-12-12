@@ -21,12 +21,15 @@ if __name__ == "__main__":
         # then we simplify the XML tree be sorting text and non-text blocks
         transformed_text = simplify.rearrange(transformed_text)
         # then we sort out headers and signatures, which may raise warnings
-        transformed_text_guard, transformed_text, warning_headers, warning_signatures = sort.exclude_headers_signatures(transformed_text)
+        transformed_text_guard, transformed_text, warning_headers, warning_signatures, warning_headers_corrected = sort.exclude_headers_signatures(transformed_text)
         # then we transform the tree to separate the tree structure from the physical structure of the text
         transformed_text = breakdown.make_breakers(transformed_text)
 
         # raising warnings and creating output files
-        utils.report_warnings(warning_headers, warning_signatures)
+        utils.report(warning_headers, "HEADER")
+        utils.report(warning_signatures, "SIGNATURE")
+        utils.report(warning_headers_corrected, "CORRECT_HEADER")
+
         final_xml_str = io.make_string(transformed_text)
         final_guard_str = io.make_string(transformed_text_guard)
 

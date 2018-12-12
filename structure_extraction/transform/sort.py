@@ -1,7 +1,22 @@
 # -*- coding: utf-8 -*-
+import stringdist
+
 from bs4 import BeautifulSoup
 from copy import copy
 from ..utils import utils
+from ..ref_data import groundtruth
+
+
+def correct_headers(s):
+    distance = 100
+    mark = ""
+    for k in groundtruth.headers:
+        this_distance = stringdist.levenshtein(s.replace(" ", "").lower(), groundtruth.headers[k].replace(" ", "").lower())
+        if this_distance < distance:
+            distance = this_distance
+            mark = k
+    return distance, groundtruth.headers[mark]
+
 
 def exclude_headers_signatures(soup):
     """Sort headers and signatures from the body of text and give each element an id
@@ -17,6 +32,7 @@ def exclude_headers_signatures(soup):
     all_pages = soup.find_all("page")
     warning_headers = []
     warning_signatures = []
+    warning_headers_corrected = []
     count_page = 0
     # reading each individual page and its content to create identifiers (page/div/p/line)
     for page in all_pages:
@@ -49,7 +65,7 @@ def exclude_headers_signatures(soup):
                     # testing the line : is it a header and needs to be taken out of the tree?
                     if int(line["b"]) < (int(page["height"]) * 0.12):
                         if "linespacing" in line.parent.attrs:
-                            # for headers, lineSpacing value is normal comprehended between 390 and 750.
+                            # for headers, lineSpacing value is normally comprehended between 390 and 750.
                             if (int(line.parent["linespacing"]) <= 750) and (int(line.parent["linespacing"]) >= 390):
                                 line_f = line.extract()
                                 line_f["type"] = "header"
@@ -69,15 +85,15 @@ def exclude_headers_signatures(soup):
                             else:
                                 count_line += 1
                                 line["id"] = id_line + str(count_line)
-                                test_str = line.string
-                                if len(test_str.replace(" ", "")) < 55:
-                                    warning_headers.append((line["id"], line.string))
+                                dist, alt_string = correct_headers(line.string)
+                                if dist < 10:
+                                    warning_headers.append((line["id"], line.string, alt_string))
                         else:
                             count_line += 1
                             line["id"] = id_line + str(count_line)
-                            test_str = line.string
-                            if len(test_str.replace(" ", "")) < 55:
-                                warning_headers.append((line["id"], line.string))
+                            dist, alt_string = correct_headers(line.string)
+                            if dist < 10:
+                                warning_headers.append((line["id"], line.string, alt_string))
                     # testing the line : is it a signature and needs to be taken out of the tree?
                     elif int(line["b"]) > (int(page["height"]) * 0.91):
                         if len(line.string.strip()) <= 2:
@@ -102,6 +118,12 @@ def exclude_headers_signatures(soup):
             if len(div_f.contents) > 0:
                 page_f.append(div_f)
         if len(header_string) > 0:
-            page["pageheader"] = header_string
+            page["pageheader_orig"] = header_string
+            dist, alt_string = correct_headers(header_string)
+            if dist < 10:
+                page["pageheader_corr"] = alt_string
+            else:
+                page["pageheader"] = header_string
+                warning_headers_corrected.append((page["id"], header_string, alt_string))
         guard_soup.document.append(page_f)
-    return guard_soup, soup, warning_headers, warning_signatures
+    return guard_soup, soup, warning_headers, warning_signatures, warning_headers_corrected

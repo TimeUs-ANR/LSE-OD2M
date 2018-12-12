@@ -21,6 +21,7 @@ def make_the_soup(filename):
             soup = BeautifulSoup(f, "lxml")
     except Exception as e:
         print(colored("Error", "red", attrs=["bold"]), e)
+        soup = False
     return soup
 
 
@@ -57,6 +58,7 @@ def write_output(filename, content):
     """
     with open(filename, "w") as f:
         f.write(content)
+
 
 def make_string(soup):
     """ Transform a parsed XML tree into a string
