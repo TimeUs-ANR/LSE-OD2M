@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 from copy import copy
-from ..leplay_utils import utils
+from ..utils import utils
 
 def exclude_headers_signatures(soup):
     """Sort headers and signatures from the body of text and give each element an id

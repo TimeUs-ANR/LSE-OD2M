@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from src.leplay_io import io
-from src.leplay_transform import simplify, sort, breakdown
-from src.leplay_utils import utils
+from structure_extraction.io import io
+from structure_extraction.transform import simplify, sort, breakdown
+from structure_extraction.utils import utils
 
 if __name__ == "__main__":
     import argparse
