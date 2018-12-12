@@ -4,6 +4,11 @@ from bs4 import BeautifulSoup
 def make_breakers(soup):
     """Transform <page></page> into <pb/> and <line></line> in <lb/>
 
+    This makes it possible to separate the XML representation from the physical structure of the text
+    to later focus on the logical structure ; but we want to keep track of physical structure for now.
+
+    This function recursively copies each level's attribute into the new elements created.
+
     :param soup: parsed XML tree
     :type soup: bs4.BeautifulSoup
     :return: parsed XML tree
@@ -14,7 +19,7 @@ def make_breakers(soup):
 
     for page in all_pages:
         new_pb = BeautifulSoup("<temp><pb/></temp>", "xml")
-        att_page = page.attrs
+        att_page = page.attrs  # dict listing page's attributes (key = attribute name)
         for k in att_page:
             new_pb.pb[k] = att_page[k]
         broken_soup.document.append(new_pb.pb)
@@ -23,19 +28,19 @@ def make_breakers(soup):
             if cont_page.name:
                 if cont_page.name == "div":
                     new_div = BeautifulSoup("<temp><div></div></temp>", "xml")
-                    att_div = cont_page.attrs
+                    att_div = cont_page.attrs  # dict listing div's attributes (key = attribute name)
                     for k in att_div:
                         new_div.div[k] = att_div[k]
                     for cont_div in cont_page.contents:
                         if cont_div.name:
                             new_p = BeautifulSoup("<temp><p></p></temp>", "xml")
-                            att_p = cont_div.attrs
+                            att_p = cont_div.attrs  # dict listing p's attributes (key = attribute name)
                             for k in att_p:
                                 new_p.p[k] = att_p[k]
                             all_lines = cont_div.find_all("line")
                             for line in all_lines:
                                 new_lb = BeautifulSoup("<temp><lb/></temp>", "xml")
-                                att_line = line.attrs
+                                att_line = line.attrs  # dict listing line's attributes (key = attribute name)
                                 for k in att_line:
                                     new_lb.lb[k] = att_line[k]
                                 new_p.p.append(new_lb.lb)

@@ -26,8 +26,8 @@ def exclude_headers_signatures(soup):
         page_f.clear()
         all_divs = page.find_all("div")
         count_div = 0
-        # since elements from the header can be split over several lines, ps or even divs
-        # were make a single string to gather everything that maybe part of the header
+        # since elements from the header can be split over several <line>s, <p>s or even <div>s
+        # we make a single string to gather everything that may be part of the header
         # and clean it later in the program.
         header_string = ""
         for div in all_divs:

@@ -26,7 +26,7 @@ def rearrange(soup):
             else:
                 if block.region:
                     block.region.decompose()
-                # moving par elements right under block element
+                # moving par elements right under <block> element
                 all_pars = block.find_all("par")
                 for par in all_pars:
                     ext_par = par.extract()
@@ -38,7 +38,7 @@ def rearrange(soup):
                 for tag in all_tags:
                     if tag.name == "text":
                         tag.decompose()
-                # moving line elements right under par element
+                # moving line elements right under <par> element
                 all_lines = block.find_all("line")
                 for line in all_lines:
                     all_formatting = line.find_all("formatting")
