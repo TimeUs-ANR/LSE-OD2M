@@ -8,6 +8,7 @@ Le script nécessite l'installation des libraries python 3.* suivantes (de préf
 - `beautifulsoup4=>4.6.3`
 - `lxml=>4.2.5`
 - `termcolor=>1.1.0`
+- `StringDist=>1.0.9`
 
 ## Utilisation
 Le script transforme un seul fichier XML à la fois.
