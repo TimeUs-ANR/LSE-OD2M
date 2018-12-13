@@ -26,7 +26,7 @@ def make_the_soup(filename):
 
 
 def make_out_filenames(name_input, name_output=False):
-    """Create filenames for the output
+    """Create output file names
 
     :param name_input: filename
     :type name_input: string
@@ -49,7 +49,7 @@ def make_out_filenames(name_input, name_output=False):
 
 
 def write_output(filename, content):
-    """ Write strings into documents
+    """Write strings into documents
 
     :param filename: filename
     :type filename: string

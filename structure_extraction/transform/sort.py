@@ -1,8 +1,24 @@
 # -*- coding: utf-8 -*-
-import stringdist
+
+# What is a "signature"? : it is the name given to the individual markers (numbers or letters) placed in the bottom
+# margins of the first page (or couple of pages) of a leaf (later folded in several pages) in an ancient book. It is used
+# as a guideline to replace every leafs in the right order when binding the book.
+
+# upgrades needed :
+# - might be necessary to decompose the different transformations
+# - add control of whether it's a header or not by checking if it's only a string made of numbers in the top 12%.
+
+# what this module does:
+# - create identifiers for pages, divs, ps and lines
+# - sort headers from the rest of the body
+# - sort signatures from the rest of the body
+# - calculate the correct content of the header and give the corrected and original version as attributes to the page
 
 from bs4 import BeautifulSoup
+import stringdist
+
 from copy import copy
+
 from ..utils import utils
 from ..ref_data import groundtruth
 
@@ -74,8 +90,6 @@ def exclude_headers_signatures(soup):
                                 if line_f.string:
                                     if utils.is_number(line_f.string):
                                         page["pagenb"] = line_f.string
-                                        # !!
-                                        # need a warning for incoherent page numbers
                                     else:
                                         header_string = header_string + line_f.string + " "
                         # raising warning if in the top 12% of the page and short enough
@@ -103,7 +117,7 @@ def exclude_headers_signatures(soup):
                             p_f.append(line_f)
                         elif len(line.string.strip()) >= 3 and len(line.string) < 5:
                             # raising warning if in the last 9% of page height but not short enough
-                            # in case parasiting characters were recognized
+                            # in case interfering characters were recognized
                             count_line += 1
                             line["id"] = id_line + str(count_line)
                             warning_signatures.append((line["id"], line.string))
@@ -119,10 +133,10 @@ def exclude_headers_signatures(soup):
                 page_f.append(div_f)
         if len(header_string) > 0:
             page["pageheader_orig"] = header_string
-            dist, alt_string = correct_headers(header_string)
-            if dist < 10:
+            dist, alt_string = correct_headers(header_string)  # where alt_string is the "correct" alternative to the string
+            if dist < 10:  # if the distance is less than 10% then it is considered the right correction
                 page["pageheader_corr"] = alt_string
-            else:
+            else:  # otherwise we still keep the suggested alternative version in the output but add a warning
                 page["pageheader"] = header_string
                 warning_headers_corrected.append((page["id"], header_string, alt_string))
         guard_soup.document.append(page_f)
