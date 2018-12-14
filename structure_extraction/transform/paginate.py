@@ -23,7 +23,7 @@ def is_coherent(orig, new):
         if new[i] != orig[i]:
             if orig[i] != "x":
                 not_matching += 1
-    if not_matching/len(new) > 0.1:
+    if not_matching/len(new) > 0.1:  # placing a limit at 10% of difference
         return False
     else:
         return True
@@ -74,13 +74,19 @@ def get_anchor(list_of_page_numbers, which_anchor):
     """
     is_nb = False
     counter = 0
+    counter_true = 0
     while counter != len(list_of_page_numbers) and is_nb is False:
         is_nb = utils.is_number(list_of_page_numbers[counter])
         if is_nb is False:
             counter += 1
         else:
-            first_nb_idx = counter
-            return first_nb_idx
+            if counter_true == which_anchor:
+                first_nb_idx = counter
+                return first_nb_idx
+            else:
+                is_nb = False
+                counter += 1
+                counter_true += 1
     return False
 
 
@@ -118,10 +124,14 @@ def paginate(soup):
 
     orig_pagination = list_page_numbers(soup)
     if orig_pagination > 0:
+        iterating = 0
         anchor = get_anchor(orig_pagination, 0)  # ajouter une incrémentation pour recalculer un index tant que c'est pas bon
         if anchor:
-            new_pagination = build_new_pagination(anchor, orig_pagination)
-            error_margin = is_coherent(orig_pagination, new_pagination)
+            error_margin = False
+            while error_margin is False or iterating < 10:
+                new_pagination = build_new_pagination(anchor, orig_pagination)
+                error_margin = is_coherent(orig_pagination, new_pagination)
+                iterating += 1
 
             # ... à compléter !
 
