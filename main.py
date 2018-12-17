@@ -24,7 +24,7 @@ if __name__ == "__main__":
         # !! add schema test before continuing -- homemade schema
         # then we sort out headers and signatures, which may raise warnings:
         transformed_text_guard, transformed_text, warning_headers, warning_signatures, warning_headers_corrected = sort.exclude_headers_signatures(transformed_text)
-        paginate.paginate(transformed_text)
+        transformed_text = paginate.paginate(transformed_text)
         # !! add schema test before continuing -- homemade schema
         # then we separate the tree structure from the physical structure of the text:
         transformed_text = breakdown.make_breakers(transformed_text)

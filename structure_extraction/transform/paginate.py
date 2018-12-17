@@ -123,6 +123,31 @@ def list_page_numbers(soup):
     return pagenumber_tracker
 
 
+def inject_new_pagination(soup, pagination):
+    """Create @pagenb_corr attributes in pages elements and assign them a value given in a list of pagenumbers
+
+    :param soup: parsed XML Tree
+    :type soup: bs4.BeautifulSoup
+    :param pagination: list of page numbers
+    :type pagination: list
+    :return: parsed XML Tree with pagenb_corr attributes
+    :rtype: bs4.BeautifulSoup
+    """
+    all_pages = soup.find_all("page")
+    # this calculation might be useless but it intends to set the range on the shortest item in case their length is different.
+    if len(all_pages) != len(pagination):
+        if len(all_pages) > len(pagination):
+            myrange = len(pagination)
+        else:
+            myrange = len(all_pages)
+    else:
+        myrange = len(all_pages)
+
+    for i in range(myrange):
+        all_pages[i]["pagenb_corr"] = pagination[i]
+    return soup
+
+
 def paginate(soup):
     """Takes a parsed XML Tree containing pages, some of which have @pagenb attributes which may or may not be correct and calculate the correct pagination
 
@@ -150,8 +175,9 @@ def paginate(soup):
                     error_margin = is_coherent(orig_pagination, new_pagination)
                     iterating += 1
                     anchor = get_anchor(orig_pagination, iterating)
-                # ajouter l'attribution des nouvelles valeurs de pagination à la soupe
-                # renvoyer la soupe !
+                paginated_soup = inject_new_pagination(soup, new_pagination)
+                return paginated_soup
+
             else:
                 # this means there is no integer in the list of page numbers
                 logging.warning("Could not calculate new pagination.")
