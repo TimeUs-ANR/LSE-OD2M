@@ -1,4 +1,10 @@
 venv/
 input/
 .idea/
+testset_LePlay
 test
+structure_extraction/__pycache__/
+structure_extraction/io/__pycache__/
+structure_extraction/transform/__pycache__/
+structure_extraction/utils/__pycache__/
+structure_extraction/ref_data/__pycache__/
