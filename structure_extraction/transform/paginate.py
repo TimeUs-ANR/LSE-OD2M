@@ -29,6 +29,21 @@ def is_coherent(orig, new):
         return True
 
 
+def set_limit(list_of_int_and_str):
+    """Calculate the maximum number of integers in a given list
+
+    :param list_of_int_and_str: list of page numbers and xs
+    :return: number of integers in the list
+    ;rtype: integer
+    """
+    # This is used to set a limit for the iteration on the list of page numbers
+    counter = 0
+    for item in list_of_int_and_str:
+        if utils.is_number(item):
+            counter += 1
+    return counter-1
+
+
 def build_new_pagination(anchor, list_of_page_numbers):
     """Build a new list of page numbers from an anchor used as a starting point
 
@@ -120,24 +135,32 @@ def paginate(soup):
     :return: parsed XML Tree
     :rtype: bs4.BeautifulSoup
     """
-    logging.basicConfig(format='%(levelname)s:%(message)s')
+    logging.basicConfig(format='%(levelname)s:%(message)s')  # setting format for logging
 
     orig_pagination = list_page_numbers(soup)
-    if orig_pagination > 0:
-        iterating = 0
-        anchor = get_anchor(orig_pagination, 0)  # ajouter une incrémentation pour recalculer un index tant que c'est pas bon
-        if anchor:
-            error_margin = False
-            while error_margin is False or iterating < 10:
-                new_pagination = build_new_pagination(anchor, orig_pagination)
-                error_margin = is_coherent(orig_pagination, new_pagination)
-                iterating += 1
-
-            # ... à compléter !
-
+    if len(orig_pagination) > 0:
+        max_iterations = set_limit(orig_pagination)  # will not iterate more times than there are possible anchors in the list of page numbers
+        if max_iterations >= 0:
+            iterating = 0  # iterating is used to set which anchor we look for
+            anchor = get_anchor(orig_pagination, 0)
+            if anchor:
+                error_margin = False
+                while error_margin is False and iterating < max_iterations:
+                    new_pagination = build_new_pagination(anchor, orig_pagination)
+                    error_margin = is_coherent(orig_pagination, new_pagination)
+                    iterating += 1
+                    anchor = get_anchor(orig_pagination, iterating)
+                # ajouter l'attribution des nouvelles valeurs de pagination à la soupe
+                # renvoyer la soupe !
+            else:
+                # this means there is no integer in the list of page numbers
+                logging.warning("Could not calculate new pagination.")
+                return soup
         else:
+            # this means there is no integer in the list of page numbers
             logging.warning("Could not calculate new pagination.")
             return soup
     else:
+        # this means there is no integer in the list of page numbers
         logging.warning("Could not calculate new pagination.")
         return soup
