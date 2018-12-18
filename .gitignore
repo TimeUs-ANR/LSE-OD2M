@@ -1,10 +1,10 @@
-venv/
-input/
+# no virtual environnement
+/venv/
+
+# no IDE files
 .idea/
-testset_LePlay
-test
-structure_extraction/__pycache__/
-structure_extraction/io/__pycache__/
-structure_extraction/transform/__pycache__/
-structure_extraction/utils/__pycache__/
-structure_extraction/ref_data/__pycache__/
+**/__pycache__/
+
+# no test set (except the first memorized state)
+/testset_LePlay
+/test/
