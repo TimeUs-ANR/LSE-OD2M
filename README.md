@@ -1,6 +1,6 @@
-# XML2TXT
+# LSE-OD2M
 
-Transformation vers un texte brut structuré de fichiers XML générés par ABBY FineReader (http://fr7.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml) contenant les transcriptions des volumes des *Ouvriers des Deux Mondes*.
+Extraction de structure logique à partir de fichiers XML générés par ABBY FineReader (http://fr7.abbyy.com/FineReader_xml/FineReader10-schema-v1.xml) contenant les transcriptions des volumes des *Ouvriers des Deux Mondes*.
 
 ## Installation
 Le script nécessite l'installation des libraries python 3.* suivantes (de préférence dans un environnement virtuel) :
